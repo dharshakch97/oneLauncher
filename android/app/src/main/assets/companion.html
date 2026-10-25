@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>oneLauncher · Personalize</title>
+    <link rel="stylesheet" href="/companion.css" />
+  </head>
+  <body>
+    <main>
+      <div class="brand">one<span>Launcher</span></div>
+      <h1>Make yourself<br />at home.</h1>
+      <p>Wallpaper, clocks and a name that feels like you.</p>
+      <section id="pairPanel" class="card">
+        <h2>Connect to your TV</h2>
+        <p class="small">
+          Enter the six-digit code shown on the TV’s Customize screen. Keep this
+          page on the same trusted Wi-Fi.
+        </p>
+        <form id="pairForm">
+          <label for="code">Pairing code</label
+          ><input
+            id="code"
+            class="code"
+            autocomplete="one-time-code"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            maxlength="6"
+            required
+          /><button type="submit">Connect</button>
+        </form>
+      </section>
+      <div id="controls" hidden>
+        <section class="card">
+          <h2>Your wallpaper</h2>
+          <p class="small">
+            Choose a photo from your phone. It is resized here and sent directly
+            to the TV. It never goes to a cloud account.
+          </p>
+          <label for="photo">Photo</label
+          ><input type="file" id="photo" accept="image/*" /><img
+            id="preview"
+            class="preview"
+            alt="Selected wallpaper preview"
+          /><button id="upload" type="button" disabled>Apply wallpaper</button
+          ><button id="reset" type="button" class="secondary">
+            Use default wallpaper
+          </button>
+        </section>
+        <form id="settingsForm">
+          <section class="card">
+            <h2>Your home screen</h2>
+            <label for="homeName">Name or welcome message</label
+            ><input id="homeName" maxlength="60" placeholder="Welcome home" />
+            <p class="small">Leave this empty to hide the name.</p>
+            <label for="primaryZone">Main clock</label
+            ><select id="primaryZone" required></select
+            ><label for="secondZone">Second clock</label
+            ><select id="secondZone"></select
+            ><label for="thirdZone">Third clock</label
+            ><select id="thirdZone"></select>
+            <div class="check">
+              <input id="hour24" type="checkbox" /><label for="hour24"
+                >Use 24-hour time</label
+              >
+            </div>
+          </section>
+          <section class="card">
+            <h2>Weather</h2>
+            <p id="weatherLocation" class="small">
+              Use current location on your TV, or choose a city here.
+            </p>
+            <label for="city">Search for a city</label>
+            <div class="row">
+              <input
+                id="city"
+                placeholder="City, country"
+                maxlength="100"
+              /><button id="search" type="button">Search</button>
+            </div>
+            <div id="results"></div>
+            <button id="clearCity" type="button" class="secondary">
+              Clear city choice
+            </button>
+            <p class="small">
+              Current location needs permission and location services on the TV.
+              City search and weather use Open-Meteo.
+            </p>
+          </section>
+          <button type="submit">Save home settings</button>
+        </form>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <footer>
+        The connection closes when you leave Customize or after 10 minutes.
+        Photos and settings are stored on your TV. Local transfers use HTTP; use
+        a trusted home network. Weather by
+        <a href="https://open-meteo.com/" target="_blank" rel="noreferrer"
+          >Open-Meteo</a
+        >.
+      </footer>
+    </main>
+    <script src="/companion.js"></script>
+  </body>
+</html>

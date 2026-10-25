@@ -1,0 +1,60 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    env:
+      TV_ABIS: armeabi-v7a,arm64-v8a
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Check version and prepare release notes
+        run: |
+          mkdir -p work
+          node scripts/release-notes.js > work/release-notes.md
+      - name: Install Android SDK packages
+        run: sdkmanager 'platform-tools' 'platforms;android-36' 'build-tools;36.0.0' 'ndk;27.1.12297006' 'cmake;3.22.1'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test -- --watchman=false
+      - run: npm run test:android
+      - name: Build signed release
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ONELAUNCHER_KEYSTORE_FILE: ${{ runner.temp }}/onelauncher-release.jks
+          ONELAUNCHER_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ONELAUNCHER_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ONELAUNCHER_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          umask 077
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$ONELAUNCHER_KEYSTORE_FILE"
+          npm run build:release
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=()
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then flags+=(--prerelease); fi
+          gh release create "$GITHUB_REF_NAME" dist/*.apk dist/*.sha256 \
+            --verify-tag --title "oneLauncher ${GITHUB_REF_NAME#v}" \
+            --notes-file work/release-notes.md "${flags[@]}"
+      - name: Remove temporary signing key
+        if: always()
+        run: rm -f "${{ runner.temp }}/onelauncher-release.jks"

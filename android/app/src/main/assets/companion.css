@@ -1,0 +1,163 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #f2f5fc;
+  background: #101b30;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 28px 18px 50px;
+  background: radial-gradient(ellipse at top right, #514567, #101b30 60%);
+  min-height: 100vh;
+}
+main {
+  max-width: 560px;
+  margin: auto;
+}
+.brand {
+  font-size: 23px;
+  letter-spacing: -0.7px;
+  font-weight: 700;
+}
+.brand span {
+  font-weight: 300;
+  color: #bed0e7;
+}
+h1 {
+  font-size: 32px;
+  line-height: 1.15;
+  margin: 35px 0 10px;
+}
+h2 {
+  font-size: 19px;
+  margin: 0 0 15px;
+}
+p {
+  line-height: 1.55;
+  color: #bdcbe0;
+}
+.card {
+  background: #1c2a41;
+  border: 1px solid #3e4b63;
+  border-radius: 22px;
+  padding: 22px;
+  margin: 18px 0;
+}
+label {
+  display: block;
+  margin: 17px 0 7px;
+  font-size: 14px;
+  color: #dce6f5;
+}
+input,
+select,
+button {
+  font: inherit;
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #526078;
+  background: #111f34;
+  color: #f2f5fc;
+  min-height: 48px;
+}
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 3px solid #a7daff;
+  outline-offset: 2px;
+}
+button {
+  background: #c8e2ff;
+  color: #10243b;
+  font-weight: 600;
+  margin-top: 16px;
+  cursor: pointer;
+}
+button.secondary {
+  background: #2c3e58;
+  color: #edf4ff;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.small {
+  font-size: 13px;
+}
+.code {
+  font-size: 30px;
+  letter-spacing: 8px;
+  text-align: center;
+}
+.status {
+  min-height: 25px;
+  color: #c8e2ff;
+  margin: 14px 0;
+  line-height: 1.5;
+}
+.error {
+  color: #ffb9aa;
+}
+.preview {
+  display: none;
+  width: 100%;
+  max-height: 210px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+.result {
+  display: block;
+  text-align: left;
+  margin: 9px 0 0;
+  background: #2c3e58;
+  color: #f2f5fc;
+  font-size: 14px;
+}
+.row {
+  display: flex;
+  gap: 10px;
+}
+.row > * {
+  min-width: 0;
+}
+.check {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.check input {
+  width: 22px;
+  min-height: 22px;
+}
+.check label {
+  margin: 0;
+}
+footer {
+  font-size: 12px;
+  color: #a5b6ce;
+  line-height: 1.6;
+  margin-top: 28px;
+}
+a {
+  color: #c8e2ff;
+}
+[hidden] {
+  display: none !important;
+}
+
+.check {
+  margin-top: 20px;
+}
+#search {
+  width: auto;
+  margin: 0;
+}
+
+#preview.visible {
+  display: block;
+}
